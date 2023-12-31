@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 27 Des 2023 pada 08.13
+-- Waktu pembuatan: 31 Des 2023 pada 09.47
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.0.28
 
@@ -32,8 +32,18 @@ CREATE TABLE `daftar_poli` (
   `id_pasien` int(11) NOT NULL,
   `id_jadwal` int(11) NOT NULL,
   `keluhan` text NOT NULL,
-  `no_antrian` int(11) NOT NULL
+  `no_antrian` int(11) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `daftar_poli`
+--
+
+INSERT INTO `daftar_poli` (`id`, `id_pasien`, `id_jadwal`, `keluhan`, `no_antrian`, `tanggal`) VALUES
+(1, 1, 1, 'lamwks', 1, '2023-12-31 08:12:52'),
+(2, 1, 1, 'lambung', 2, '2023-12-31 08:13:51'),
+(3, 1, 1, 'acd', 3, '2023-12-31 08:15:03');
 
 -- --------------------------------------------------------
 
@@ -86,6 +96,13 @@ CREATE TABLE `jadwal_periksa` (
   `jam_selesai` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data untuk tabel `jadwal_periksa`
+--
+
+INSERT INTO `jadwal_periksa` (`id`, `id_dokter`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
+(1, 7, 'Senin', '22:33:33', '23:33:33');
+
 -- --------------------------------------------------------
 
 --
@@ -124,6 +141,15 @@ CREATE TABLE `pasien` (
   `no_hp` varchar(50) NOT NULL,
   `no_rm` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pasien`
+--
+
+INSERT INTO `pasien` (`id`, `nama`, `alamat`, `no_ktp`, `no_hp`, `no_rm`) VALUES
+(1, 'lala', 'Jl. Pemuda no.05, Semarang', '0558265546565985', '085236547852', '123'),
+(2, 'Melati', 'Jl.Mawar no.45, Semarang', '852259625858556', '085215486659', '202312-2'),
+(3, 'Melati', 'Jl.Mawar no.45, Semarang', '852259625858556', '085215486659', '202312-3');
 
 -- --------------------------------------------------------
 
@@ -257,7 +283,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `daftar_poli`
 --
 ALTER TABLE `daftar_poli`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `detail_periksa`
@@ -275,7 +301,7 @@ ALTER TABLE `dokter`
 -- AUTO_INCREMENT untuk tabel `jadwal_periksa`
 --
 ALTER TABLE `jadwal_periksa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `obat`
@@ -287,7 +313,7 @@ ALTER TABLE `obat`
 -- AUTO_INCREMENT untuk tabel `pasien`
 --
 ALTER TABLE `pasien`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `periksa`

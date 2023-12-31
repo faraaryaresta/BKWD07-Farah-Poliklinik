@@ -27,6 +27,9 @@ if (!isset($_SESSION)) {
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="index.php">Home</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.php?page=daftarPasien">Daftar Pasien</a>
+                    </li>
                     <?php
                         if (isset($_SESSION['username'])){
                             //menu master jika user sudah login 
