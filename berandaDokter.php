@@ -30,16 +30,15 @@ if (!isset($_SESSION)) {
                         if (isset($_SESSION['nama'])){
                             //menu master jika user sudah login 
                     ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Data Pasien</a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="berandaDokter.php?page=periksa">Periksa</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="berandaDokter.php?page=riwayatPasien">Riwayat Pasien</a>
-                                </li>
-                            </ul>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="berandaDokter.php?page=periksa">Periksa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="berandaDokter.php?page=riwayatPasien">Riwayat Pasien</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="berandaDokter.php?page=jadwalDokter">Jadwal Dokter</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="berandaDokter.php?page=profilDokter">Profil Dokter</a>
@@ -90,9 +89,34 @@ if (!isset($_SESSION)) {
 
             if (isset($_SESSION['nama'])) {
                 //jika sudah login tampilkan nama
-                echo " " . $_SESSION['nama'] . " , di Sistem Informasi Poliklinik</h2><hr>";
+                echo " " . $_SESSION['nama'] . " , di Sistem Informasi Poliklinik</h2><hr> ";
             } else {
-                echo "</h2><hr>Silakan Login untuk menggunakan sistem. Jika belum memiliki akun silakan Register terlebih dahulu.";
+                echo '
+                    <section class="about_section pt-3">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5 ">
+                                    <div class="img-box">
+                                        <img src="img/about1.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-box">
+                                        <div class="heading_container">
+                                            <h3>
+                                                Selamat datang di Poliklinik Sehat Bahagia! <span></span>
+                                            </h3>
+                                        </div>
+                                        <p class="aboutpoli" style="font-size: 16px;">
+                                            Kami adalah pusat layanan kesehatan yang berkomitmen untuk memberikan pelayanan terbaik kepada pasien kami. 
+                                            Dengan staf medis yang berpengalaman dan fasilitas terkini, Poliklinik Sehat Bahagia menjadi pilihan utama untuk perawatan kesehatan Anda.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    ';
             }
         }
     ?>

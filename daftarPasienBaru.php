@@ -87,7 +87,7 @@
                         <button class="btn btn-lg btn-success w-100 fs-6" type="submit">Daftar</button>
                     </div>
                     <div class="text-center">
-                        <p class="mt-3"><a href="index.php?page=daftarPasien" style="text-decoration: none;">Saya pasien lama</a></p>
+                        <p class="mt-3"><a>Sudah terdaftar? </a><a href="index.php?page=daftarPasien" style="text-decoration: none;">Masuk pasien</a></p>
                     </div>
                 </form>
             </div>

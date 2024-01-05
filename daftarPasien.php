@@ -43,6 +43,7 @@
                     <h2 class="text-center">Hello!</h2>
                     <p>Silakan masukkan nomor rekam medis (RM) Anda untuk memulai proses pendaftaran dan mendapatkan layanan medis kami.</p>
                 </div>
+                
                 <form method="POST" action="index.php?page=daftarPasien">
                     <?php
                         if (isset($error)) {
@@ -55,14 +56,14 @@
                     ?>
                     <div class="form-group mb-3">
                         <label for="no_rm">Nomor RM</label> 
-                        <input type="text" name="no_rm" class="form-control form-control-lg bg-light fs-6" placeholder="Enter your nomorrm" required>
+                        <input type="text" name="no_rm" class="form-control form-control-lg bg-light fs-6" placeholder="Enter your no_rm" required>
                     </div>
                     
                     <div class="form-group mb-3">
                         <button class="btn btn-lg btn-success w-100 fs-6" type="submit">Cari</button>
                     </div>
                     <div class="text-center">
-                        <p class="mt-3"><a href="index.php?page=daftarPasienBaru" style="text-decoration: none;">Saya pasien baru</a></p>
+                        <p class="mt-3"><a>Belum terdaftar? </a><a href="index.php?page=daftarPasienBaru" style="text-decoration: none;">Mendaftar pasien baru</a></p>
                     </div>
                 </form>
             </div>

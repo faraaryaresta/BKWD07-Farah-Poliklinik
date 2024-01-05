@@ -18,7 +18,7 @@ if (!isset($_SESSION)) {
   <body>
     <nav class="navbar navbar-expand-lg navbar-expand-lg navbar-light bg-light pt-2 ps-4 pe-3 shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Sistem Informasi Poliklinik</a>
+            <a class="navbar-brand" href="#">Poliklinik Sehat Bahagia</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -91,17 +91,43 @@ if (!isset($_SESSION)) {
             if (isset($_GET['page'])) {
                 include($_GET['page'] . ".php");
             } else {
-                echo "<h2>Selamat Datang di Sistem Informasi Poliklinik";
+                echo "<h3>Selamat Datang di Sistem Informasi Poliklinik";
 
                 if (isset($_SESSION['username'])) {
                     //jika sudah login tampilkan username
-                    echo ", " . $_SESSION['username'] . "</h2><hr>";
+                    echo ", " . $_SESSION['username'] . "</h3> <hr>";
                 } else {
-                    echo "</h2><hr>Silakan Login untuk menggunakan sistem. Jika belum memiliki akun silakan Register terlebih dahulu.";
+                    echo '
+                    <section class="about_section pt-3">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5 ">
+                                    <div class="img-box">
+                                        <img src="img/about1.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-box">
+                                        <div class="heading_container">
+                                            <h3>
+                                                Selamat datang di Poliklinik Sehat Bahagia! <span></span>
+                                            </h3>
+                                        </div>
+                                        <p class="aboutpoli">
+                                            Kami adalah pusat layanan kesehatan yang berkomitmen untuk memberikan pelayanan terbaik kepada pasien kami. 
+                                            Dengan staf medis yang berpengalaman dan fasilitas terkini, Poliklinik Sehat Bahagia menjadi pilihan utama untuk perawatan kesehatan Anda.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    ';
                 }
             }
         ?>
-    </main>        
+    </main>    
+    
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

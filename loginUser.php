@@ -29,16 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="row border rounded-5 p-3 bg-white shadow box-area">
-        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box loginpage">
+    <div class="row border rounded-5 p-3 bg-white shadow ">
+        <!-- <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box loginpage">
             <div class="featured-image mb-3">
             <img src="img/loginpage.png" class="img-fluid" style="width: 250px;">
             </div>
             <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Be Verified</p>
             <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Join experienced Designers on this platform.</small>
-        </div> 
+        </div>  -->
 <!-------------------- ------ Right Box ---------------------------->
-        <div class="col-md-6 right-box">
+        <div class="col-md-10 right-box align-items-center">
             <div class="row align-items-center">
                 <div class="header-text mb-4">
                     <h2>Hello, Admin</h2>
@@ -56,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     ?>
                     <div class="form-group mb-3">
                         <label for="username">Username</label> 
-                        <input type="text" name="username" class="form-control form-control-lg bg-light fs-6" placeholder="Enter your username" required>
+                        <input type="text" name="username" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan username anda" required>
                     </div>
                     <div class="form-group mb-5 ">
                         <label for="password">Password</label>
-                        <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Enter your password" required>
+                        <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan password anda" required>
                     </div>
                     
                     <div class="form-group mb-3">
