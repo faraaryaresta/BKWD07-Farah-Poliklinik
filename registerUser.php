@@ -36,6 +36,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+//simpan
+<div class="container" style="margin-top: 4.1rem;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center fw-bold" style="font-size: 2rem;">Pendaftaran Pasien</div>
+                    <div class="card-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="about_section pt-3">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5 ">
+                                    <div class="img-box">
+                                        <img src="img/about1.png" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="detail-box">
+                                        <div class="heading_container">
+                                            <h3>
+                                                Poliklinik Sehat Bahagia! <span></span>
+                                            </h3>
+                                        </div>
+                                        <p class="aboutpoli">
+                                            Kami adalah pusat layanan kesehatan yang berkomitmen untuk memberikan pelayanan terbaik kepada pasien kami. 
+                                            Dengan staf medis yang berpengalaman dan fasilitas terkini, Poliklinik Sehat Bahagia menjadi pilihan utama untuk perawatan kesehatan Anda.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">

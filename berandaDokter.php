@@ -17,7 +17,7 @@ if (!isset($_SESSION)) {
   <body>
     <nav class="navbar navbar-expand-lg navbar-expand-lg navbar-light bg-light pt-2 ps-4 pe-3 shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Sistem Informasi Poliklinik</a>
+            <a class="navbar-brand" href="#">Poliklinik Sehat Bahagia</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,9 +39,6 @@ if (!isset($_SESSION)) {
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="berandaDokter.php?page=jadwalDokter">Jadwal Dokter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="berandaDokter.php?page=profilDokter">Profil Dokter</a>
                         </li>
                     <?php 
                         } 
@@ -80,16 +77,32 @@ if (!isset($_SESSION)) {
         </div>
     </nav>
 
-    <main role="main" class="container">
+    <main role="main" class="container-fluid">
     <?php
         if (isset($_GET['page'])) {
             include($_GET['page'] . ".php");
         } else {
-            echo "<br><h2>Selamat Datang Dokter ";
+            echo "";
 
             if (isset($_SESSION['nama'])) {
                 //jika sudah login tampilkan nama
-                echo " " . $_SESSION['nama'] . " , di Sistem Informasi Poliklinik</h2><hr> ";
+                echo '<section class="slider">
+                    <div class="hero-slider">
+                        <div class="single-slider">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-7 pt-5">
+                                        <div class="text">
+                                            <h1>Selamat Datang Dokter</h1>
+                                            <h2>Di Poliklinik Sehat Bahagia</h2>
+                                            <h2>Hello, '. $_SESSION['nama'] .'</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>';
             } else {
                 echo '
                     <section class="about_section pt-3">

@@ -35,12 +35,11 @@ if (isset($_POST['simpan'])) {
         echo "Error: " . mysqli_error($mysqli);
     }
     
-    echo $tambah;
     echo 
-    "<script> 
-            alert('.$tambah.');
+        "<script> 
+            alert('Pasien telah diperiksa');
             document.location='berandaDokter.php?page=periksa';
-    </script>";
+        </script>";
 }
 if (isset($_GET['aksi'])) {
     if ($_GET['aksi'] == 'hapus') {
@@ -53,90 +52,107 @@ if (isset($_GET['aksi'])) {
 }
 
 ?>
-<h2>Periksa Pasien</h2>
 <br>
 
 <div class="container">
-    <form method="POST" action="">
-        <?php 
-            $id_pasien = '';
-            $id_dokter = $_SESSION['id'];
-            $nama_dokter = $_SESSION['nama'];
-            $tgl_periksa = '';
-            $nama_pasien = '';
-            $no_antrian = '';
-            $keluhan = '';
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center fw-bold" style="font-size: 2rem;">Periksa Pasien</div>
+                        <div class="card-body">
+                            <form method="POST" action="">
+                                <?php 
+                                    $id_pasien = '';
+                                    $id_dokter = $_SESSION['id'];
+                                    $nama_dokter = $_SESSION['nama'];
+                                    $tgl_periksa = '';
+                                    $nama_pasien = '';
+                                    $no_antrian = '';
+                                    $keluhan = '';
 
-            if (isset($_GET['id'])) {
-                $ambil = mysqli_query($mysqli, "SELECT daftar_poli.*, pasien.nama AS nama
-                FROM daftar_poli
-                JOIN pasien ON daftar_poli.id_pasien = pasien.id
-                WHERE daftar_poli.id='" . $_GET['id'] . "'");
-                while ($row = mysqli_fetch_array($ambil)) {
-                    $id_pasien = $row['id_pasien'];
-                    $nama_pasien = $row['nama'];
-                    $no_antrian = $row['no_antrian'];
-                    $keluhan = $row['keluhan'];
-                }
-            ?>
-                <input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
-                <input type="hidden" name="id_pasien" value="<?php echo $id_pasien; ?>">
-                <input type="hidden" name="id_dokter" value="<?php echo $id_dokter; ?>">
-            <?php
-            }
-            
-        ?>  
+                                    if (isset($_GET['id'])) {
+                                        $ambil = mysqli_query($mysqli, "SELECT daftar_poli.*, pasien.nama AS nama
+                                        FROM daftar_poli
+                                        JOIN pasien ON daftar_poli.id_pasien = pasien.id
+                                        WHERE daftar_poli.id='" . $_GET['id'] . "'");
+                                        while ($row = mysqli_fetch_array($ambil)) {
+                                            $id_pasien = $row['id_pasien'];
+                                            $nama_pasien = $row['nama'];
+                                            // $tgl_periksa = $row['tgl_periksa'];
+                                            $no_antrian = $row['no_antrian'];
+                                            $keluhan = $row['keluhan'];
+                                        }
+                                    ?>
+                                        <input type="hidden" name="id" value="<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+                                        <input type="hidden" name="id_pasien" value="<?php echo $id_pasien; ?>">
+                                        <input type="hidden" name="id_dokter" value="<?php echo $id_dokter; ?>">
+                                    <?php
+                                    }
+                                    
+                                ?>  
 
-        <div class="form-group mb-3">
-            <label for="id_pasien">Nama Pasien</label> 
-            <input value="<?php echo $nama_pasien ?>" type="text" name="id_pasien" class="form-control form-control-lg  fs-6" placeholder="Masukkan nama pasien" required>
-        </div>
-        
-        <div class="form-group mb-3">
-            <label for="id_dokter">Nama Dokter</label> 
-            <input value="<?php echo $nama_dokter ?>" type="text" name="id_dokter" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan nama dokter" required>
-        </div>
+                                <div class="form-group mb-3">
+                                    <label for="id_pasien">Nama Pasien</label> 
+                                    <input value="<?php echo $nama_pasien ?>" type="text" name="id_pasien" class="form-control form-control-lg  fs-6" placeholder="Masukkan nama pasien" required>
+                                </div>
+                                
+                                <div class="form-group mb-3">
+                                    <label for="id_dokter">Nama Dokter</label> 
+                                    <input value="<?php echo $nama_dokter ?>" type="text" name="id_dokter" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan nama dokter" required>
+                                </div>
 
-        <div class="row mt-1 mb-3">
-            <label for="catatan" class="form-label fw-bold">
-                Catatan
-            </label>
-            <textarea placeholder="Catatan..." class="form-control" name="catatan" id="catatan" aria-label="With textarea"></textarea>
-        </div>
+                                <!-- <div class="form-group mb-3">
+                                    <label for="tgl_periksa">Tanggal</label> 
+                                    <input value="<?php echo $tgl_periksa ?>" type="datetime" name="tgl_periksa" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan tanggal" required>
+                                </div> -->
 
-        <div class="row mt-1 mb-3">
-            <label for="id_obat" class="form-label fw-bold">
-                Obat
-            </label>
-            <div>
-                <select class="form-select" aria-label="id_obat" name="id_obat" >
-                    <option selected>Pilih Obat...</option>
-                    <?php 
-                        $result = mysqli_query($mysqli, "SELECT * FROM obat");
+                                <div class="row mt-1 mb-3">
+                                    <label for="catatan" class="form-label fw-bold">
+                                        Catatan
+                                    </label>
+                                    <textarea placeholder="Catatan..." class="form-control" name="catatan" id="catatan" aria-label="With textarea"></textarea>
+                                </div>
 
-                        while ($data = mysqli_fetch_assoc($result)) {
-                            echo "<option value='" . $data['id'] . "'>". $data['nama_obat'] . "</option>";
-                        }
-                    ?>
-                </select>
+                                <div class="row mt-1 mb-3">
+                                    <label for="id_obat" class="form-label fw-bold"> 
+                                        Obat
+                                    </label>
+                                    <div>
+                                        <select class="form-select" aria-label="id_obat" name="id_obat" >
+                                            <option selected>Pilih Obat...</option>
+                                            <?php 
+                                                $result = mysqli_query($mysqli, "SELECT * FROM obat");
+
+                                                while ($data = mysqli_fetch_assoc($result)) {
+                                                    echo "<option value='" . $data['id'] . "'>". $data['nama_obat'] . "</option>";
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class=col>
+                                        <button type="submit" class="btn btn-primary rounded-pill px-3 mt-auto" name="simpan">Simpan</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="row mt-3">
-            <div class=col>
-                <button type="submit" class="btn btn-primary rounded-pill px-3 mt-auto" name="simpan">Simpan</button>
-            </div>
-        </div>
-    </form>
+    </div>
 
     <br>
     <br>
     <!-- Table-->
-    <table class="table table-hover">
+    <table class="table table-bordered table-striped table-hover">
         <!--thead atau baris judul-->
         <thead>
-            <tr>
-                <th scope="col">#</th>
+            <tr class="text-center">
+                <th scope="col">No</th>
                 <th scope="col">Nama Pasien</th>
                 <th scope="col">Nomor Antrian</th>
                 <th scope="col">Keluhan</th>
@@ -165,13 +181,12 @@ if (isset($_GET['aksi'])) {
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>
-                    <th scope="row"><?php echo $no++ ?></th>
+                    <th scope="row" class="text-center"><?php echo $no++ ?></th>
                     <td><?php echo $data['nama'] ?></td>
-                    <td><?php echo $data['no_antrian'] ?></td>
+                    <td class="text-center"><?php echo $data['no_antrian'] ?></td>
                     <td><?php echo $data['keluhan'] ?></td>
-                    <td>
-                        <a class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=periksa&id=<?php echo $data['id'] ?>">Ubah</a>
-                        <a class="btn btn-danger rounded-pill px-3" href="berandaDokter.php?page=periksa&id=<?php echo $data['id'] ?>&aksi=hapus">Hapus</a>
+                    <td  class="d-flex justify-content-center ">
+                        <a class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=periksa&id=<?php echo $data['id'] ?>">Periksa</a>
                     </td>
                 </tr>
             <?php

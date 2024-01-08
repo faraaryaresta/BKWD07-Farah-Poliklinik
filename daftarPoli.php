@@ -14,7 +14,8 @@
         $no_antrian = $row['max_no'] !== null ? $row['max_no'] + 1 : 1;
 
         // Insert the new poli registration into the daftar_poli table
-        $insert_query = "INSERT INTO daftar_poli (id_pasien, id_jadwal, keluhan, no_antrian, tanggal) VALUES ('".$_SESSION['id_pasien']."', '$id_jadwal', '$keluhan', '$no_antrian', NOW())";
+        $insert_query = "INSERT INTO daftar_poli (id_pasien, id_jadwal, keluhan, no_antrian, tanggal) 
+            VALUES ('".$_SESSION['id_pasien']."', '$id_jadwal', '$keluhan', '$no_antrian', NOW())";
         if (mysqli_query($mysqli, $insert_query)) {
             // echo "<script>alert('No antrian anda adalah $no_antrian');</script>";
             $success = "No antrian anda adalah $no_antrian";
@@ -26,7 +27,8 @@
         }
     }
 
-    $query = "SELECT dokter.id AS dokter_id, dokter.nama AS dokter_nama, jadwal_periksa.id AS jadwal_id, jadwal_periksa.hari AS hari, jadwal_periksa.jam_mulai AS jam_mulai, jadwal_periksa.jam_selesai AS jam_selesai FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter";
+    $query = "SELECT dokter.id AS dokter_id, dokter.nama AS dokter_nama, jadwal_periksa.id AS jadwal_id, 
+        jadwal_periksa.hari AS hari, jadwal_periksa.jam_mulai AS jam_mulai, jadwal_periksa.jam_selesai AS jam_selesai FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter";
     $result = $mysqli->query($query);
     if (!$result) {
         die("Query error: " . $mysqli->error);

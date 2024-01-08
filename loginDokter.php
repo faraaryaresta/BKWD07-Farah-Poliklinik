@@ -5,7 +5,7 @@ if (!isset($_SESSION)) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'];
-    $no_hp = $_POST['no_hp'];
+    $password = $_POST['password'];
 
     $query = "SELECT * FROM dokter WHERE nama = '$nama'";
     $result = $mysqli->query($query);
@@ -16,9 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
-        if (($no_hp == $row['no_hp'])) {
-            $_SESSION['nama'] = $nama;
+        if (($password == $row['password'])) {
             $_SESSION['id'] = $row['id'];
+            $_SESSION['nama'] = $nama;
             header("Location: berandaDokter.php");
         } else {
             $error = "Password salah";
@@ -31,13 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="row border rounded-5 p-3 bg-white shadow">
-        <!-- <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box loginpage">
-            <div class="featured-image mb-3">
-            <img src="img/loginpage.png" class="img-fluid" style="width: 250px;">
-            </div>
-            <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Be Verified</p>
-            <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Join experienced Designers on this platform.</small>
-        </div>  -->
 <!-------------------- ------ Right Box ---------------------------->
         <div class="col-md-10 right-box align-items-center ">
             <div class="row align-items-center">
@@ -60,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="text" name="nama" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan nama anda" required>
                     </div>
                     <div class="form-group mb-5 ">
-                        <label for="no_hp">Password</label>
-                        <input type="password" name="no_hp" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan password anda" required>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Masukkan password anda" required>
                     </div>
                     
                     <div class="form-group mb-3">

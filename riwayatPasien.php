@@ -24,18 +24,19 @@ if (isset($_GET['aksi'])) {
 <br>
 
 <div class="container">
-<table class="table table-hover">
+<table class="table table-bordered table-striped table-hover">
         <!--thead atau baris judul-->
         <thead>
-            <tr>
-                <th scope="col">#</th>
+            <tr  class="text-center">
+                <th scope="col">No</th>
+                <th scope="col">Tanggal Periksa</th>
                 <th scope="col">Nama Pasien</th>
                 <th scope="col">Nomor Antrian</th>
                 <th scope="col">Keluhan</th>
                 <th scope="col">Catatan</th>
                 <th scope="col">Biaya Periksa</th>
                 <th scope="col">Nama Obat</th>
-                <th scope="col">Aksi</th>
+                <!-- <th scope="col">Aksi</th> -->
             </tr>
         </thead>
         <!--tbody berisi isi tabel sesuai dengan judul atau head-->
@@ -56,15 +57,16 @@ if (isset($_GET['aksi'])) {
             ?>
                 <tr>
                     <th scope="row"><?php echo $no++ ?></th>
+                    <td><?php echo $data['tgl_periksa'] ?></td>
                     <td><?php echo $data['nama'] ?></td>
-                    <td><?php echo $data['no_antrian'] ?></td>
-                    <td><?php echo $data['keluhan'] ?></td>
+                    <td  class="text-center"><?php echo $data['no_antrian'] ?></td>
+                    <td ><?php echo $data['keluhan'] ?></td>
                     <td><?php echo $data['catatan'] ?></td>
-                    <td><?php echo $data['biaya_periksa'] ?></td>
+                    <td  class="text-center"><?php echo $data['biaya_periksa'] ?></td>
                     <td><?php echo $data['nama_obat'] ?></td>
-                    <td>
+                    <!-- <td>
                         <a class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=periksa&id=<?php echo $data['id'] ?>">Ubah</a>
-                    </td>
+                    </td> -->
                 </tr>
             <?php
             }
