@@ -24,7 +24,11 @@ if (isset($_GET['aksi'])) {
 <br>
 
 <div class="container">
-<table class="table table-bordered table-striped table-hover">
+    <!-- Tambahkan form untuk proses print -->
+    
+    <!-- <button class="btn btn-primary mb-3" name="print"><a target="_blank" class="text-white" href="cetak.php">Print</a></button> -->
+
+    <table class="table table-bordered table-striped table-hover">
         <!--thead atau baris judul-->
         <thead>
             <tr  class="text-center">
@@ -43,7 +47,9 @@ if (isset($_GET['aksi'])) {
         <tbody>
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
+                // Mendapatkan ID dokter dari sesi
                 $id_dokter = $_SESSION['id'];
+                // Menampilkan data riwayat pasien berdasarkan dokter
                 $result = mysqli_query($mysqli, "SELECT daftar_poli.*, pasien.nama AS nama, jadwal_periksa.hari, periksa.tgl_periksa, periksa.catatan, periksa.biaya_periksa, obat.nama_obat AS nama_obat
                 FROM daftar_poli
                 JOIN jadwal_periksa ON daftar_poli.id_jadwal = jadwal_periksa.id 
@@ -53,6 +59,7 @@ if (isset($_GET['aksi'])) {
                 LEFT JOIN obat ON detail_periksa.id_obat = obat.id
                 WHERE jadwal_periksa.id_dokter = '$id_dokter' AND periksa.id_daftar_poli IS NOT NULL");
                 $no = 1;
+                // Menampilkan data dalam bentuk tabel
                 while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>

@@ -10,14 +10,16 @@ if (!isset($_SESSION['username'])) {
 
 if (isset($_POST['simpan'])) {
     if (isset($_POST['id'])) {
+        // Jika terdapat parameter 'id' pada POST, maka ini adalah proses ubah data dokter
         $ubah = mysqli_query($mysqli, "UPDATE dokter SET 
-            nama = '" . $_POST['nama'] . "',
+            nama = '"  . $_POST['nama'] . "',
             alamat = '" . $_POST['alamat'] . "',
             no_hp = '" . $_POST['no_hp'] . "',
             id_poli = '" . $_POST['id_poli'] . "'
             WHERE
             id = '" . $_POST['id'] . "'");
     } else {
+        // Jika data dokter baru, jalankan query INSERT
         $tambah = mysqli_query($mysqli, "INSERT INTO dokter (nama, alamat, no_hp, id_poli) 
             VALUES (
                 '" . $_POST['nama'] . "',
@@ -30,6 +32,7 @@ if (isset($_POST['simpan'])) {
             document.location='index.php?page=dokter';
         </script>";
 }
+
 if (isset($_GET['aksi'])) {
     if ($_GET['aksi'] == 'hapus') {
         $hapus = mysqli_query($mysqli, "DELETE FROM dokter WHERE id = '" . $_GET['id'] . "'");
@@ -50,14 +53,19 @@ if (isset($_GET['aksi'])) {
                     <form class="form row" method="POST" style="width: 30rem;" action="" name="myForm" onsubmit="return(validate());">
                     <!-- Kode php untuk menghubungkan form dengan database -->
                         <?php
+                        // inisialisasi variabel untuk menyimpan data dokter yang akan diubah
                         $nama = '';
                         $alamat = '';
                         $no_hp = '';
                         $id_poli = '';
+                        // Jika terdapat parameter 'id' pada URL, ambil data dokter tersebut dari database
                         if (isset($_GET['id'])) {
+                            // Jika terdapat parameter 'id', menjalankan query SELECT untuk mengambil data dokter berdasarkan id
                             $ambil = mysqli_query($mysqli, "SELECT * FROM dokter 
-                                    WHERE id='" . $_GET['id'] . "'");
+                                WHERE id='" . $_GET['id'] . "'");
+                            // Menggunakan loop while untuk mengekstrak data dokter yang dihasilkan oleh query
                             while ($row = mysqli_fetch_array($ambil)) {
+                                // Menyimpan data dokter ke dalam variabel untuk digunakan dalam form input/edit
                                 $nama = $row['nama'];
                                 $alamat = $row['alamat'];
                                 $no_hp = $row['no_hp'];
@@ -100,9 +108,12 @@ if (isset($_GET['aksi'])) {
                                 <select class="form-select" aria-label="id_poli" name="id_poli" >
                                     <option selected>Pilih Poli...</option>
                                     <?php 
+                                        // Menjalankan query SELECT untuk mendapatkan data poli dari database
                                         $result = mysqli_query($mysqli, "SELECT * FROM poli");
 
+                                        // Menggunakan loop while untuk menampilkan opsi-opsi poli
                                         while ($data = mysqli_fetch_assoc($result)) {
+                                            // Menentukan opsi mana yang harus dipilih
                                             $selected = ($data['id'] == $id_poli) ? 'selected' : '';
                                             echo "<option $selected value='" . $data['id'] . "'>". $data['nama_poli'] . "</option>";
                                         }
@@ -140,8 +151,10 @@ if (isset($_GET['aksi'])) {
         <tbody>
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
+            // Mengambil data dokter dari database
             $result = mysqli_query($mysqli, "SELECT * FROM dokter");
             $no = 1;
+            // Looping untuk menampilkan data dokter dalam tabel
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>

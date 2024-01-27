@@ -1,38 +1,41 @@
 <?php  
+    // Pengecekan apakah request yang diterima adalah POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Mengambil data keluhan dan id_jadwal dari formulir POST
         $keluhan = $_POST['keluhan'];
         $id_jadwal = $_POST['id_jadwal'];
 
-        // Check if the patient has already registered
+        // Pengecekan apakah pasien sudah mendaftar di poli sebelumnya
         $check_query = "SELECT * FROM daftar_poli WHERE id_pasien = '".$_SESSION['id_pasien']."'";
         $check_result = $mysqli->query($check_query);
 
-        // Check if the form fields are not empty
+        // Memeriksa apakah formulir diisi dan menentukan nomor antrian berikutnya.
         $query = "SELECT MAX(no_antrian) as max_no FROM daftar_poli WHERE id_jadwal = '$id_jadwal'";
         $result = $mysqli->query($query);
         $row = $result->fetch_assoc();
         $no_antrian = $row['max_no'] !== null ? $row['max_no'] + 1 : 1;
 
-        // Insert the new poli registration into the daftar_poli table
+        // Menyimpan data pendaftaran pasien ke poli dalam tabel daftar_poli 
         $insert_query = "INSERT INTO daftar_poli (id_pasien, id_jadwal, keluhan, no_antrian, tanggal) 
             VALUES ('".$_SESSION['id_pasien']."', '$id_jadwal', '$keluhan', '$no_antrian', NOW())";
         if (mysqli_query($mysqli, $insert_query)) {
-            // echo "<script>alert('No antrian anda adalah $no_antrian');</script>";
             $success = "No antrian anda adalah $no_antrian";
-            // $button_disabled = "disabled";
-            // Redirect to prevent form resubmission
             header("Location: index.php?page=daftarPoli&no_antrian=$no_antrian");
         } else {
             $error = "Pendaftaran gagal";
         }
     }
 
+    // Query SQL untuk mengambil informasi dokter dan jadwal periksa dari tabel dokter dan jadwal_periksa dengan menggunakan JOIN
     $query = "SELECT dokter.id AS dokter_id, dokter.nama AS dokter_nama, jadwal_periksa.id AS jadwal_id, 
         jadwal_periksa.hari AS hari, jadwal_periksa.jam_mulai AS jam_mulai, jadwal_periksa.jam_selesai AS jam_selesai FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter";
+    // Eksekusi query menggunakan objek MySQLi dan menyimpan hasilnya
     $result = $mysqli->query($query);
+    // Memeriksa query berhasil dieksekusi
     if (!$result) {
         die("Query error: " . $mysqli->error);
     }
+    // Mengambil semua baris hasil query sebagai array asosiatif
     $dokter_schedules = $result->fetch_all(MYSQLI_ASSOC);
 ?>
 

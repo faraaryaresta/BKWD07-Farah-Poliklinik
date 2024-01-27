@@ -9,27 +9,33 @@ if (!isset($_SESSION['nama'])) {
 }
 
 if (isset($_POST['simpan'])) {
+    // Cek apakah ada data 'id' dalam $_POST
     if (isset($_POST['id'])) {
+        // Jika ada, jalankan query UPDATE untuk mengubah data jadwal periksa
         $ubah = mysqli_query($mysqli, "UPDATE jadwal_periksa SET 
             id_dokter = '".$_SESSION['id']."',
             hari = '" . $_POST['hari'] . "',
             jam_mulai = '" . $_POST['jam_mulai'] . "',
-            jam_selesai = '" . $_POST['jam_selesai'] . "'
-            WHERE
+            jam_selesai = '" . $_POST['jam_selesai'] . "',
+            status = '" . (isset($_POST['status']) ? $_POST['status'] : 0) . "'
+            WHERE 
             id = '" . $_POST['id'] . "'");
-    } else {
-        $tambah = mysqli_query($mysqli, "INSERT INTO jadwal_periksa (id_dokter, hari, jam_mulai, jam_selesai) 
+    } else { 
+        // Jika tidak ada, jalankan query INSERT untuk menambahkan data jadwal periksa baru
+        $tambah = mysqli_query($mysqli, "INSERT INTO jadwal_periksa (id_dokter, hari, jam_mulai, jam_selesai, status) 
             VALUES (
                 '".$_SESSION['id']."',
                 '" . $_POST['hari'] . "',
                 '" . $_POST['jam_mulai'] . "',
-                '" . $_POST['jam_selesai'] . "'
+                '" . $_POST['jam_selesai'] . "',
+                '" . (isset($_POST['status']) ? $_POST['status'] : 0) . "'
             )");
     }
     echo "<script> 
             document.location='berandaDokter.php?page=jadwalDokter';
         </script>";
 }
+
 
 ?>
 <br>
@@ -44,18 +50,27 @@ if (isset($_POST['simpan'])) {
                         <form class="form row" method="POST" style="width: 30rem;" action="" name="myForm" onsubmit="return(validate());">
                             <!-- Kode php untuk menghubungkan form dengan database -->
                             <?php
+                            // inisialisasi variabel
                             $id_dokter = '';
                             $hari = '';
                             $jam_mulai = '';
                             $jam_selesai = '';
+                            $status = '0';
+
+                            // Cek apakah terdapat parameter 'id' pada URL (query string)
                             if (isset($_GET['id'])) {
+                                // Jika ada, jalankan query SELECT untuk mengambil data jadwal periksa berdasarkan id
                                 $ambil = mysqli_query($mysqli, "SELECT * FROM jadwal_periksa 
                                         WHERE id='" . $_GET['id'] . "'");
+                                
+                                // Gunakan loop while untuk mengekstrak data jadwal periksa dari hasil query
                                 while ($row = mysqli_fetch_array($ambil)) {
+                                    // Menyimpan data jadwal periksa ke dalam variabel yang sesuai
                                     $id_dokter = $row['id_dokter'];
                                     $hari = $row['hari'];
                                     $jam_mulai = $row['jam_mulai'];
                                     $jam_selesai = $row['jam_selesai'];
+                                    $status = $row['status'];
                                 }
                             ?>
                                 <input type="hidden" name="id" value="<?php echo $_GET['id'] ?>">
@@ -92,6 +107,24 @@ if (isset($_POST['simpan'])) {
                                     <label for="jam_selesai">Jam Selesai:</label>
                                     <input value="<?php echo $jam_selesai ?>" type="time" class="form-control" id="jam_selesai" name="jam_selesai" required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-select" aria-label="status" name="status" >
+                                        <option selected>Pilih Status...</option>
+                                        <?php 
+                                            $sts = ['0' => 'aktif', '1' => 'tidak aktif'];
+                                            // Looping melalui array untuk membuat opsi dropdown
+                                            foreach ($sts as $statuses => $namastatus ) {
+                                                // Menentukan apakah opsi saat ini harus dipilih (selected)
+                                                $selected = ($statuses == $status ) ? 'selected' : '';
+                                                // Tampil dropdown
+                                                echo "<option value='$statuses' $selected>$namastatus</option>";
+                                            };
+                                        ?>                                  
+                                    </select>
+                                </div>
+
                             </div>
                             <div class="row mt-3">
                                 <div class=col>
@@ -110,7 +143,6 @@ if (isset($_POST['simpan'])) {
     <!-- Table-->
     <table class="table table-bordered table-striped table-hover">
         <!--thead atau baris judul-->
-        
         <thead>
             <tr class="text-center">
                 <th scope="col">No</th>
@@ -118,9 +150,7 @@ if (isset($_POST['simpan'])) {
                 <th scope="col">Hari</th>
                 <th scope="col">Mulai</th>
                 <th scope="col">Selesai</th>
-
-                <!-- <th scope="col">Status</th>
-                <th scope="col">Aktif</th> -->
+                <th scope="col">Status</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
@@ -129,8 +159,9 @@ if (isset($_POST['simpan'])) {
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
             $id_dokter = $_SESSION['id'];
+            // Menjalankan query untuk mendapatkan jadwal periksa dokter tertentu
             $result = mysqli_query($mysqli, "SELECT dokter.nama, jadwal_periksa.id, jadwal_periksa.hari, jadwal_periksa.hari, 
-                jadwal_periksa.jam_mulai, jadwal_periksa.jam_selesai FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter WHERE dokter.id = $id_dokter");
+                jadwal_periksa.jam_mulai, jadwal_periksa.jam_selesai, jadwal_periksa.status FROM dokter JOIN jadwal_periksa ON dokter.id = jadwal_periksa.id_dokter WHERE dokter.id = $id_dokter");
             $no = 1;
             while ($data = mysqli_fetch_array($result)) {
             ?>
@@ -140,12 +171,13 @@ if (isset($_POST['simpan'])) {
                     <td class="text-center"><?php echo $data['hari'] ?></td>
                     <td class="text-center"><?php echo $data['jam_mulai'] ?></td>
                     <td class="text-center"><?php echo $data['jam_selesai'] ?></td>
-                    <!-- <td>
-                        <a class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=jadwalDokter&id=<?php echo $data['id'] ?>">Aktif</a>
+                    <td class="d-flex gap-2 mb-3 d-flex justify-content-center">
+                        <?php 
+                            echo ($data['status'] == 0 ) ? 
+                            ' <a class="btn btn-success rounded-pill px-3">Aktif</a>' : 
+                            ' <a class="btn btn-danger rounded-pill px-3">Tidak Aktif</a>';
+                        ?>
                     </td>
-                    <td>
-                        <a class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=jadwalDokter&id=<?php echo $data['id'] ?>">Non Aktifkan</a>
-                    </td> -->
                     <td>
                         <div class="d-flex gap-2 mb-3 d-flex justify-content-center">
                             <a type="button" class="btn btn-success rounded-pill px-3" href="berandaDokter.php?page=jadwalDokter&id=<?php echo $data['id'] ?>">

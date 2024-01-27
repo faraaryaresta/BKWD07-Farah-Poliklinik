@@ -60,9 +60,9 @@ if (!isset($_SESSION)) {
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="index.php?page=pasien">Pasien</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="index.php?page=jadwalDokterAdmin">Jadwal Dokter</a>
-                        </li>
+                        </li> -->
                     <?php 
                         } 
                     ?>

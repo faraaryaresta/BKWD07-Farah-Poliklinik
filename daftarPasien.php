@@ -1,16 +1,23 @@
 <?php 
+    // Memeriksa apakah request yang diterima adalah POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $no_rm = $_POST['no_rm'];
 
+        // query mencari pasien berdasarkan nomor rekam medis
         $query = "SELECT * FROM pasien WHERE no_rm = '$no_rm'";
         $result = $mysqli->query($query);
 
+        // Memeriksa apakah query berhasil dieksekusi
         if (!$result) {
             die("Query error: " . $mysqli->error);
         }
 
+        // Memeriksa apakah ada satu baris data pasien yang sesuai dengan nomor rekam medis
         if ($result->num_rows == 1) {
+            // Mengambil data pasien dari hasil query
             $row = $result->fetch_assoc();
+
+            // Menyimpan informasi nama dan id_pasien ke dalam sesi
             $_SESSION['nama'] = $nama;
             $_SESSION['id_pasien'] = $row['id'];
             header("Location: index.php?page=daftarPoli&no_rm=$no_rm");

@@ -1,5 +1,7 @@
 <?php 
+    // Memeriksa apakah request yang diterima adalah POST
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Mengambil data dari formulir POST
         $nama = $_POST['nama'];
         $alamat = $_POST['alamat'];
         $no_ktp = $_POST['no_ktp'];
@@ -7,13 +9,15 @@
 
         // Membuat no_rm
         if ($result->num_rows == 0) {
+            // ambil jumlah total pasien dari database
             $result = mysqli_query($mysqli, "SELECT COUNT(*) as total FROM pasien");
             $row = mysqli_fetch_assoc($result);
             $totalPasien = $row['total'];
 
-            // Generate no_rm based on the current date and total number of pasien
+            // Generate no_rm berdasarkan tanggal saat ini dan total pasien
             $no_rm = date('Y') . date('m') . '-' . ($totalPasien + 1);
 
+            // Menyimpan data pasien ke dalam database
             $sql = "INSERT INTO pasien (nama, alamat, no_ktp, no_hp, no_rm) VALUES ('$nama', '$alamat', '$no_ktp', '$no_hp', '$no_rm')";
             $tambah = mysqli_query($mysqli, $sql);
             $success = "No RM anda adalah $no_rm";

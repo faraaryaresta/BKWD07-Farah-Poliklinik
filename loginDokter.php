@@ -3,20 +3,27 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
+// Memeriksa apakah request yang diterima adalah POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Mengambil data nama dan password dari formulir POST
     $nama = $_POST['nama'];
     $password = $_POST['password'];
-
+    // Membuat query untuk mencari user berdasarkan nama
     $query = "SELECT * FROM dokter WHERE nama = '$nama'";
     $result = $mysqli->query($query);
 
+    // Memeriksa apakah query berhasil dieksekusi
     if (!$result) {
         die("Query error: " . $mysqli->error);
     }
 
+    // Memeriksa apakah ada satu baris data dokter yang sesuai dengan nama
     if ($result->num_rows == 1) {
+        // Mengambil data dokter dari hasil query
         $row = $result->fetch_assoc();
+        // Memeriksa apakah password yang dimasukkan cocok dengan password di database
         if (($password == $row['password'])) {
+            // Jika cocok, mengeset session 'id' dan 'nama', dan mengarahkan ke halaman berandaDokter.php
             $_SESSION['id'] = $row['id'];
             $_SESSION['nama'] = $nama;
             header("Location: berandaDokter.php");

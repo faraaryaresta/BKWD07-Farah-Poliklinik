@@ -9,17 +9,22 @@ if (!isset($_SESSION['nama'])) {
 }
 
 if (isset($_POST['simpan'])) {
+    // Mendapatkan data dari formulir
     $id_daftar_poli = $_GET['id'];
     $id_obat = $_POST['id_obat'];
     $biaya_dokter = 150000;
     $tgl_periksa = date('Y-m-d H:i:s');
     $catatan = $_POST['catatan'];
 
+    // Mengambil harga obat dari database
     $result = mysqli_query($mysqli, "SELECT harga FROM obat WHERE id = '$id_obat'");
     $row = mysqli_fetch_assoc($result);
     $harga = $row['harga'];
 
+    // Menghitung total biaya periksa
     $total = $biaya_dokter + $harga;
+
+    // Menambahkan data periksa ke dalam tabel 'periksa'
     $tambah = mysqli_query($mysqli, "INSERT INTO periksa (id_daftar_poli, tgl_periksa, catatan, biaya_periksa) 
         VALUES (
             '$id_daftar_poli',
@@ -27,7 +32,10 @@ if (isset($_POST['simpan'])) {
             '$catatan',
             '$total'
         )");
+    // Mendapatkan ID periksa yang baru ditambahkan
     $id_periksa = mysqli_insert_id($mysqli);
+
+    // Menambahkan data detail periksa ke dalam tabel 'detail_periksa'
     $sql = "INSERT INTO detail_periksa (id_periksa, id_obat) VALUES ('$id_periksa', '$id_obat')";
     $tambahdetail = mysqli_query($mysqli, $sql);
 
@@ -41,7 +49,10 @@ if (isset($_POST['simpan'])) {
             document.location='berandaDokter.php?page=periksa';
         </script>";
 }
+
+// Jika terdapat parameter 'aksi' pada URL
 if (isset($_GET['aksi'])) {
+    // Jika nilai 'aksi' adalah 'hapus'
     if ($_GET['aksi'] == 'hapus') {
         $hapus = mysqli_query($mysqli, "DELETE FROM periksa WHERE id = '" . $_GET['id'] . "'");
     }
@@ -63,6 +74,7 @@ if (isset($_GET['aksi'])) {
                         <div class="card-body">
                             <form method="POST" action="">
                                 <?php 
+                                    // inisialisasi variabel
                                     $id_pasien = '';
                                     $id_dokter = $_SESSION['id'];
                                     $nama_dokter = $_SESSION['nama'];
@@ -72,11 +84,13 @@ if (isset($_GET['aksi'])) {
                                     $keluhan = '';
 
                                     if (isset($_GET['id'])) {
+                                        // Ambil data pasien berdasarkan ID yang diberikan
                                         $ambil = mysqli_query($mysqli, "SELECT daftar_poli.*, pasien.nama AS nama
                                         FROM daftar_poli
                                         JOIN pasien ON daftar_poli.id_pasien = pasien.id
                                         WHERE daftar_poli.id='" . $_GET['id'] . "'");
                                         while ($row = mysqli_fetch_array($ambil)) {
+                                            // Isi variabel dengan data yang sesuai
                                             $id_pasien = $row['id_pasien'];
                                             $nama_pasien = $row['nama'];
                                             // $tgl_periksa = $row['tgl_periksa'];

@@ -10,6 +10,7 @@
     
     if (isset($_POST['simpan'])) {
         if (isset($_POST['id'])) {
+            // Jika terdapat parameter 'id' pada POST, maka ini adalah proses ubah data pasien
             $ubah = mysqli_query($mysqli, "UPDATE pasien SET 
                 nama = '" . $_POST['nama'] . "',
                 alamat = '" . $_POST['alamat'] . "',
@@ -18,6 +19,7 @@
                 WHERE
                 id = '" . $_POST['id'] . "'");
         } else {
+            // Jika data pasien baru, jalankan query INSERT
             $result = mysqli_query($mysqli, "SELECT COUNT(*) as total FROM pasien");
             $row = mysqli_fetch_assoc($result);
             $totalPasien = $row['total'];
@@ -58,14 +60,18 @@
                     <form class="form row" style="width: 30rem;" method="POST" action="" name="myForm" onsubmit="return(validate());">
                         <!-- Kode php untuk menghubungkan form dengan database -->
                         <?php
+                        // inisialisasi variabel untuk menyimpan data pasien yang akan diubah
                         $nama = '';
                         $alamat = '';
                         $no_ktp = '';
                         $no_hp = '';
                         if (isset($_GET['id'])) {
+                            // Jika terdapat parameter 'id' pada URL, ambil data pasien tersebut dari database
                             $ambil = mysqli_query($mysqli, "SELECT * FROM pasien 
-                                    WHERE id='" . $_GET['id'] . "'");
+                                WHERE id='" . $_GET['id'] . "'");
+                            // Menggunakan loop while untuk mengekstrak data pasien yang dihasilkan oleh query
                             while ($row = mysqli_fetch_array($ambil)) {
+                            // Menyimpan data pasien ke dalam variabel
                                 $nama = $row['nama'];
                                 $alamat = $row['alamat'];
                                 $no_ktp = $row['no_ktp'];
@@ -138,8 +144,10 @@
         <tbody>
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
+            // Mengambil data pasien dari database
             $result = mysqli_query($mysqli, "SELECT * FROM pasien");
             $no = 1;
+            // Looping untuk menampilkan data pasien dalam tabel
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>

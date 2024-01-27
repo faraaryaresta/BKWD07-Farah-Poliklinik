@@ -10,12 +10,14 @@ if (!isset($_SESSION['username'])) {
 
 if (isset($_POST['simpan'])) {
     if (isset($_POST['id'])) {
+        // Jika terdapat parameter 'id' pada POST, maka ini adalah proses ubah data poli
         $ubah = mysqli_query($mysqli, "UPDATE poli SET 
             nama_poli = '" . $_POST['nama_poli'] . "',
             keterangan = '" . $_POST['keterangan'] . "'
             WHERE
             id = '" . $_POST['id'] . "'");
     } else {
+         // Jika data pasien baru, jalankan query INSERT
         $tambah = mysqli_query($mysqli, "INSERT INTO poli (nama_poli, keterangan) 
             VALUES (
                 '" . $_POST['nama_poli'] . "',
@@ -48,12 +50,16 @@ if (isset($_GET['aksi'])) {
                     <form class="form row" method="POST" style="width: 30rem;" action="" name="myForm" onsubmit="return(validate());">
                         <!-- Kode php untuk menghubungkan form dengan database -->
                         <?php
+                        // inisialisasi variabel untuk menyimpan data poli yang akan diubah
                         $nama_poli = '';
                         $keterangan = '';
                         if (isset($_GET['id'])) {
+                            // Jika terdapat parameter 'id' pada URL, ambil data poli tersebut dari database
                             $ambil = mysqli_query($mysqli, "SELECT * FROM poli 
-                                    WHERE id='" . $_GET['id'] . "'");
+                                WHERE id='" . $_GET['id'] . "'");
+                            // Menggunakan loop while untuk mengekstrak data poli yang dihasilkan oleh query
                             while ($row = mysqli_fetch_array($ambil)) {
+                            // Menyimpan data poli ke dalam variabel
                                 $nama_poli = $row['nama_poli'];
                                 $keterangan = $row['keterangan'];
                             }
@@ -105,8 +111,10 @@ if (isset($_GET['aksi'])) {
         <tbody>
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
+            // Mengambil data poli dari database
             $result = mysqli_query($mysqli, "SELECT * FROM poli");
             $no = 1;
+            // Looping untuk menampilkan data poli dalam tabel
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>

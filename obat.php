@@ -10,6 +10,7 @@ if (!isset($_SESSION['username'])) {
 
 if (isset($_POST['simpan'])) {
     if (isset($_POST['id'])) {
+        // Jika terdapat parameter 'id' pada POST, maka ini adalah proses ubah data obat
         $ubah = mysqli_query($mysqli, "UPDATE obat SET 
             nama_obat = '" . $_POST['nama_obat'] . "',
             kemasan = '" . $_POST['kemasan'] . "',
@@ -17,6 +18,7 @@ if (isset($_POST['simpan'])) {
             WHERE
             id = '" . $_POST['id'] . "'");
     } else {
+        // Jika data obat baru, jalankan query INSERT
         $tambah = mysqli_query($mysqli, "INSERT INTO obat (nama_obat, kemasan, harga) 
             VALUES (
                 '" . $_POST['nama_obat'] . "',
@@ -49,13 +51,18 @@ if (isset($_GET['aksi'])) {
                     <form class="form row" style="width: 30rem;" method="POST" action="" name="myForm" onsubmit="return(validate());">
                         <!-- Kode php untuk menghubungkan form dengan database -->
                         <?php
+                        // inisialisasi variabel untuk menyimpan data obat yang akan diubah
                         $nama_obat = '';
                         $kemasan = '';
                         $harga = '';
+                        // Jika terdapat parameter 'id' pada URL, ambil data obat tersebut dari database
                         if (isset($_GET['id'])) {
+                            // Jika terdapat parameter 'id', menjalankan query SELECT untuk mengambil data obat berdasarkan id
                             $ambil = mysqli_query($mysqli, "SELECT * FROM obat 
-                                    WHERE id='" . $_GET['id'] . "'");
+                                WHERE id='" . $_GET['id'] . "'");
+                            // Menggunakan loop while untuk mengekstrak data obat yang dihasilkan oleh query
                             while ($row = mysqli_fetch_array($ambil)) {
+                                // Menyimpan data obat ke dalam variabel
                                 $nama_obat = $row['nama_obat'];
                                 $kemasan = $row['kemasan'];
                                 $harga = $row['harga'];
@@ -118,8 +125,10 @@ if (isset($_GET['aksi'])) {
         <tbody>
             <!-- Kode PHP untuk menampilkan semua isi dari tabel urut-->
             <?php
+            // Mengambil data obat dari database
             $result = mysqli_query($mysqli, "SELECT * FROM obat");
             $no = 1;
+            // Looping untuk menampilkan data obat dalam tabel
             while ($data = mysqli_fetch_array($result)) {
             ?>
                 <tr>
